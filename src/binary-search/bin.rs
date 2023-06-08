@@ -1,4 +1,4 @@
-fn binary_search<T: PartialEq + PartialOrd + Ord + Copy>(list: &[T], item: T) -> Option<usize> {
+fn binary_search<T: Ord + Copy>(list: &[T], item: T) -> Option<usize> {
     if list.is_empty() {
         return None;
     }
@@ -36,4 +36,8 @@ fn main() {
     assert_eq!(binary_search(&list, 12), Some(0));
     assert_eq!(binary_search(&list, 700), Some(4));
     assert_eq!(binary_search(&list, 103), None);
+
+    let list =  vec!["a", "b", "c", "d"];
+    assert_eq!(binary_search(&list, "a"), Some(0));
+    assert_eq!(binary_search(&list, "e"), None);
 }

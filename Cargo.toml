@@ -1,12 +1,16 @@
 [package]
+edition = "2021"
 name = "algorithmes-plus-simple-avec-dessin"
 version = "0.1.0"
-edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [[bin]]
-name="binary-search"
-path="src/binary-search/bin.rs"
+name = "binary-search"
+path = "src/binary-search/bin.rs"
+
+[[bin]]
+name = "selection-sort"
+path = "src/selection-sort/bin.rs"
 
 [dependencies]

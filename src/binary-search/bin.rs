@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-fn binary_search<T: PartialEq + Ord>(list: &[T], item: &T) -> Option<usize> {
+fn binary_search<T: Ord>(list: &[T], item: &T) -> Option<usize> {
     if !list.is_empty() {
         let mut low = 0;
         let mut hight = list.len() - 1;

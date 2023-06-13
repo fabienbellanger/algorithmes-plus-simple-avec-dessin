@@ -1,0 +1,82 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'binary-search'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=binary-search",
+                    "--package=algorithmes-plus-simple-avec-dessin"
+                ],
+                "filter": {
+                    "name": "binary-search",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'binary-search'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=binary-search",
+                    "--package=algorithmes-plus-simple-avec-dessin"
+                ],
+                "filter": {
+                    "name": "binary-search",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'selection-sort'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=selection-sort",
+                    "--package=algorithmes-plus-simple-avec-dessin"
+                ],
+                "filter": {
+                    "name": "selection-sort",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'selection-sort'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=selection-sort",
+                    "--package=algorithmes-plus-simple-avec-dessin"
+                ],
+                "filter": {
+                    "name": "selection-sort",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

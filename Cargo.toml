@@ -18,3 +18,4 @@ name = "quicksort"
 path = "src/quicksort/bin.rs"
 
 [dependencies]
+rand = "0.8.5"

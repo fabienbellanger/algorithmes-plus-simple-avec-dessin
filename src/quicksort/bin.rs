@@ -1,6 +1,6 @@
-use std::fmt::Debug;
+use rand::{thread_rng, Rng};
 
-fn quicksort<T: Ord + Clone + Copy + Debug>(list: &[T]) -> Vec<T> {
+fn quicksort<T: Ord + Clone + Copy>(list: &[T]) -> Vec<T> {
     if list.len() < 2 {
         list.to_vec()
     } else {
@@ -11,24 +11,37 @@ fn quicksort<T: Ord + Clone + Copy + Debug>(list: &[T]) -> Vec<T> {
     }
 }
 
-/*
-partitionner(tableau T, entier premier, entier dernier, entier pivot)
-    échanger T[pivot] et T[dernier]  // échange le pivot avec le dernier du tableau , le pivot devient le dernier du tableau
-    j := premier
-    pour i de premier à dernier - 1 // la boucle se termine quand i = (dernier élément du tableau).
-        si T[i] <= T[dernier] alors
-            échanger T[i] et T[j]
-            j := j + 1
-    échanger T[dernier] et T[j]
-    renvoyer j
+fn choose_pivot(low: usize, hight: usize) -> usize {
+    let mut rng = thread_rng();
+    rng.gen_range(low..=hight)
+}
 
-tri_rapide(tableau T, entier premier, entier dernier)
-        si premier < dernier alors
-            pivot := choix_pivot(T, premier, dernier)
-            pivot := partitionner(T, premier, dernier, pivot)
-            tri_rapide(T, premier, pivot-1)
-            tri_rapide(T, pivot+1, dernier)
-*/
+fn partition<T: Ord + Clone + Copy>(list: &mut [T], low: usize, hight: usize) -> usize {
+    let pivot = choose_pivot(low, hight);
+    list.swap(hight, pivot);
+
+    let mut j = low;
+
+    for i in low..hight {
+        if list[i] <= list[hight] {
+            list.swap(i, j);
+            j += 1;
+        }
+    }
+
+    list.swap(hight, j);
+
+    j
+}
+
+fn quicksort2<T: Ord + Clone + Copy>(list: &mut [T], low: usize, hight: usize) {
+    if low < hight {
+        let pivot = partition(list, low, hight);
+
+        quicksort2(list, low, pivot.saturating_sub(1));
+        quicksort2(list, pivot.saturating_add(1), hight);
+    }
+}
 
 fn main() {
     assert_eq!(quicksort(&vec![45, 23, 1, 90, 5]), [1, 5, 23, 45, 90]);
@@ -36,4 +49,8 @@ fn main() {
         quicksort(&["david", "jean", "bob", "zoé", "sarah", "alice"]),
         ["alice", "bob", "david", "jean", "sarah", "zoé"]
     );
+
+    let mut list = vec![45, 23, 1, 90, 5];
+    quicksort2(&mut list, 0, 4);
+    assert_eq!(list, [1, 5, 23, 45, 90]);
 }

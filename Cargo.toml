@@ -13,4 +13,8 @@ path = "src/binary-search/bin.rs"
 name = "selection-sort"
 path = "src/selection-sort/bin.rs"
 
+[[bin]]
+name = "quicksort"
+path = "src/quicksort/bin.rs"
+
 [dependencies]

@@ -17,5 +17,9 @@ path = "src/selection-sort/bin.rs"
 name = "quicksort"
 path = "src/quicksort/bin.rs"
 
+[[bin]]
+name = "bfs"
+path = "src/bfs/bin.rs"
+
 [dependencies]
 rand = "0.8.5"

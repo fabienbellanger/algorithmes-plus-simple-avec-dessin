@@ -1,18 +1,4 @@
 /*
-Example:
-
-ParcoursLargeur(Graphe G, Sommet s):
-    f = CreerFile();
-    f.enfiler(s);
-    marquer(s);
-    tant que la file est non vide
-        s = f.defiler();
-        afficher(s);
-        pour tout voisin t de s dans G
-            si t non marqué
-                f.enfiler(t);
-                marquer(t);
-
 def search(name):
     search_queue = deque()
     search_queue += graph[name]
@@ -32,37 +18,35 @@ def search(name):
 */
 
 use std::{
-    collections::{HashMap, HashSet},
+    collections::{HashMap, HashSet, VecDeque},
     fmt::Debug,
     hash::Hash,
 };
 
-fn _person_to_search(name: &str) -> bool {
-    name.len() == 5
-}
+fn list<T: Hash + Eq + Clone + Debug>(graph: &HashMap<T, Vec<T>>, node: T) -> Option<T> {
+    let mut search_queue: VecDeque<T> = graph
+        .get(&node)
+        .unwrap_or(&vec![])
+        .clone()
+        .into_iter()
+        .collect();
+    let mut marked: HashSet<T> = HashSet::new();
+    marked.insert(node.clone());
 
-// TODO: Search function as parameter
-fn search<T: Hash + Eq + Clone + Debug>(graph: &HashMap<T, Vec<T>>, node: T) -> Option<T> {
-    let mut search_queue: Vec<T> = graph.get(&node).unwrap_or(&vec![]).clone();
-    let mut searched: HashSet<T> = HashSet::new();
-    searched.insert(node.clone());
-
-    println!("==> {node:?}");
+    println!("{node:?}");
 
     while !search_queue.is_empty() {
-        println!("          {:?}", &search_queue);
-        println!("          {:?}", &searched);
-        let s = search_queue.pop().unwrap();
-
-        println!("==> {s:?}");
+        let s = search_queue.pop_front().unwrap();
+        marked.insert(s.clone());
 
         let next_nodes = graph.get(&s).unwrap_or(&vec![]).clone();
         for n in next_nodes {
-            if searched.get(&n).is_none() {
-                search_queue.push(n.clone());
-                searched.insert(n);
+            if marked.get(&n).is_none() {
+                search_queue.push_back(n.clone());
             }
         }
+
+        println!("{s:?}");
     }
 
     None
@@ -70,12 +54,12 @@ fn search<T: Hash + Eq + Clone + Debug>(graph: &HashMap<T, Vec<T>>, node: T) -> 
 
 fn main() {
     println!("Breadth-first search");
+
     let mut graph = HashMap::new();
     graph.insert("me", vec!["alice", "bob"]);
     graph.insert("alice", vec!["john"]);
     graph.insert("john", vec!["luke"]);
     graph.insert("bob", vec!["yoyo"]);
     graph.insert("yoyo", vec!["alice"]); // <- bug ?
-    search(&graph, "me");
-    // assert_eq!(search(HashMap::new(), "you"), None);
+    list(&graph, "me");
 }

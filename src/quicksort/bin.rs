@@ -44,7 +44,7 @@ fn quicksort2<T: Ord + Clone + Copy>(list: &mut [T], low: usize, hight: usize) {
 }
 
 fn main() {
-    assert_eq!(quicksort(&vec![45, 23, 1, 90, 5]), [1, 5, 23, 45, 90]);
+    assert_eq!(quicksort(&[45, 23, 1, 90, 5]), [1, 5, 23, 45, 90]);
     assert_eq!(
         quicksort(&["david", "jean", "bob", "zoé", "sarah", "alice"]),
         ["alice", "bob", "david", "jean", "sarah", "zoé"]

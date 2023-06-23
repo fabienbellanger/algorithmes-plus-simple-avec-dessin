@@ -1,29 +1,10 @@
-/*
-def search(name):
-    search_queue = deque()
-    search_queue += graph[name]
-    searched = []
-
-    while search_queue:
-        person = search_queue.popleft()
-
-        if not person in searched:
-            if person_is_seller(person):
-                print person + “ is a mango seller!”
-                return True
-            else:
-                search_queue += graph[person] searched.append(person)
-
-    return False
-*/
-
 use std::{
     collections::{HashMap, HashSet, VecDeque},
     fmt::Debug,
     hash::Hash,
 };
 
-fn list<T: Hash + Eq + Clone + Debug>(graph: &HashMap<T, Vec<T>>, node: T) -> Option<T> {
+fn list<T: Hash + Eq + Clone + Debug>(graph: &HashMap<T, Vec<T>>, node: T) {
     let mut search_queue: VecDeque<T> = graph
         .get(&node)
         .unwrap_or(&vec![])
@@ -48,16 +29,42 @@ fn list<T: Hash + Eq + Clone + Debug>(graph: &HashMap<T, Vec<T>>, node: T) -> Op
 
         println!("{s:?}");
     }
-
-    None
 }
 
 fn search<T: Hash + Eq + Clone + Debug>(
     graph: &HashMap<T, Vec<T>>,
     node: T,
-    function: fn() -> bool,
-) -> Option<T> {
-    None
+    function: fn(wanted: &T, node: &T) -> bool,
+    w: &T,
+) -> bool {
+    let mut search_queue: VecDeque<T> = graph
+        .get(&node)
+        .unwrap_or(&vec![])
+        .clone()
+        .into_iter()
+        .collect();
+    let mut marked: HashSet<T> = HashSet::new();
+
+    while !search_queue.is_empty() {
+        let s = search_queue.pop_front().unwrap();
+
+        if marked.get(&s).is_none() {
+            if function(w, &s) {
+                return true;
+            } else {
+                for n in graph.get(&s).unwrap_or(&vec![]).clone() {
+                    search_queue.push_back(n.clone());
+                }
+                marked.insert(s.clone());
+            }
+        }
+    }
+
+    false
+}
+
+fn tt<T: Hash + Eq + Clone + Debug>(s: &T, q: &T) -> bool {
+    s == q
 }
 
 fn main() {
@@ -71,5 +78,12 @@ fn main() {
     graph.insert("yoyo", vec!["alice"]); // <- bug ?
     list(&graph, "me");
 
-    search(&graph, "me", || true);
+    let result = search(&graph, "me", tt, &"alice");
+    assert!(result);
+
+    let result = search(&graph, "me", tt, &"fabien");
+    assert!(!result);
+
+    let result = search(&graph, "me", tt, &"me");
+    assert!(!result);
 }

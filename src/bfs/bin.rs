@@ -52,6 +52,14 @@ fn list<T: Hash + Eq + Clone + Debug>(graph: &HashMap<T, Vec<T>>, node: T) -> Op
     None
 }
 
+fn search<T: Hash + Eq + Clone + Debug>(
+    graph: &HashMap<T, Vec<T>>,
+    node: T,
+    function: fn() -> bool,
+) -> Option<T> {
+    None
+}
+
 fn main() {
     println!("Breadth-first search");
 
@@ -62,4 +70,6 @@ fn main() {
     graph.insert("bob", vec!["yoyo"]);
     graph.insert("yoyo", vec!["alice"]); // <- bug ?
     list(&graph, "me");
+
+    search(&graph, "me", || true);
 }

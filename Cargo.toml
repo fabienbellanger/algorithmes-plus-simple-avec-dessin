@@ -21,5 +21,9 @@ path = "src/quicksort/bin.rs"
 name = "bfs"
 path = "src/bfs/bin.rs"
 
+[[bin]]
+name = "dijkstra"
+path = "src/dijkstra/bin.rs"
+
 [dependencies]
 rand = "0.8.5"

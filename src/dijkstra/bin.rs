@@ -58,7 +58,7 @@ fn get_best_path<T: Hash + Eq + Clone + Debug>(
     start: &T,
     end: &T,
 ) -> Vec<T> {
-    let mut result: Vec<T> = Vec::with_capacity(parents.len());
+    let mut result: Vec<T> = Vec::with_capacity(parents.len() + 1);
     let mut current = end.clone();
 
     for _node in parents {

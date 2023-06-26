@@ -26,7 +26,7 @@ fn find_lowest_cost_node<T: Hash + Eq + Debug + Clone>(
     lowest_cost_node
 }
 
-fn find_path<T: Hash + Debug + Clone + Copy + Eq>(
+fn find_best_path<T: Hash + Debug + Clone + Copy + Eq>(
     graph: &Graph<T>,
     costs: &mut GraphCost<T>,
     parents: &mut GraphParent<T>,
@@ -82,32 +82,26 @@ fn main() {
     println!("Dijkstra algorithm\n");
 
     // Graph
-    let mut graph: Graph<&str> = HashMap::new();
-    let mut map: HashMap<&str, usize> = HashMap::new();
-    map.insert("a", 6);
-    map.insert("b", 2);
-    graph.insert("start", map);
-    let mut map: HashMap<&str, usize> = HashMap::new();
-    map.insert("end", 1);
-    graph.insert("a", map);
-    let mut map: HashMap<&str, usize> = HashMap::new();
-    map.insert("a", 3);
-    map.insert("end", 5);
-    graph.insert("b", map);
-    graph.insert("end", HashMap::new());
+    let graph: Graph<&str> = [
+        ("start", [("a", 6), ("b", 2)].into_iter().collect()),
+        ("a", [("end", 1)].into_iter().collect()),
+        ("b", [("a", 3), ("end", 5)].into_iter().collect()),
+        ("end", HashMap::new()),
+    ]
+    .into_iter()
+    .collect();
 
     // Graph cost
-    let mut graph_costs: GraphCost<&str> = HashMap::new();
-    graph_costs.insert("a", 6);
-    graph_costs.insert("b", 2);
-    graph_costs.insert("end", usize::MAX);
+    let mut graph_costs: GraphCost<&str> = [("a", 6), ("b", 2), ("end", usize::MAX)]
+        .into_iter()
+        .collect();
 
     // Graph parents
-    let mut graph_parents: GraphParent<&str> = HashMap::new();
-    graph_parents.insert("a", "start");
-    graph_parents.insert("b", "start");
+    let mut graph_parents: GraphParent<&str> =
+        [("a", "start"), ("b", "start")].into_iter().collect();
 
-    find_path(&graph, &mut graph_costs, &mut graph_parents);
+    // Find best path
+    find_best_path(&graph, &mut graph_costs, &mut graph_parents);
     println!(
         "Best path: {:?}",
         get_best_path(&graph_parents, &"start", &"end")

@@ -80,6 +80,7 @@ fn get_best_path<T: Hash + Eq + Clone + Debug>(
 
 fn main() {
     println!("Dijkstra algorithm\n");
+    println!("-----------------------------------------------------\n");
 
     // Graph
     let graph: Graph<&str> = [
@@ -107,4 +108,37 @@ fn main() {
         get_best_path(&graph_parents, &"start", &"end")
     );
     println!("Best cost: {}", graph_costs.get(&"end").unwrap_or(&0));
+
+    println!("\n-----------------------------------------------------\n");
+
+    // Graph
+    let graph: Graph<&str> = [
+        ("start", [("a", 1), ("b", 6)].into_iter().collect()),
+        ("b", [("end", 2)].into_iter().collect()),
+        ("a", [("b", 6), ("c", 4)].into_iter().collect()),
+        ("c", [("end", 4)].into_iter().collect()),
+        ("end", HashMap::new()),
+    ]
+    .into_iter()
+    .collect();
+
+    // Graph cost
+    let mut graph_costs: GraphCost<&str> =
+        [("a", 1), ("b", 6), ("c", usize::MAX), ("end", usize::MAX)]
+            .into_iter()
+            .collect();
+
+    // Graph parents
+    let mut graph_parents: GraphParent<&str> =
+        [("a", "start"), ("b", "start")].into_iter().collect();
+
+    // Find best path
+    find_best_path(&graph, &mut graph_costs, &mut graph_parents);
+    println!(
+        "Best path: {:?}",
+        get_best_path(&graph_parents, &"start", &"end")
+    );
+    println!("Best cost: {}", graph_costs.get(&"end").unwrap_or(&0));
+
+    println!("\n-----------------------------------------------------\n");
 }
